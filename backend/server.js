@@ -4,6 +4,7 @@ const cookieSession = require("cookie-session");
 const http = require("http");
 const { Server } = require("socket.io");
 const path = require("path");
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
@@ -81,13 +82,10 @@ const Role = db.role;
 
 // Connecting to Database
 db.mongoose
-  .connect(
-    `mongodb+srv://sidlyf:WsiZByAqYS71kAzI@cluster0.qbfn02m.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Successfully connect to MongoDB.");
     initial();
