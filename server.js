@@ -17,6 +17,19 @@ const io = new Server(server, {
   },
 });
 
+// --------------------------deployment------------------------------
+
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
+  );
+}
+// --------------------------deployment------------------------------
+
 try {
   io.on("connection", (socket) => {
     console.log("New client connected");
