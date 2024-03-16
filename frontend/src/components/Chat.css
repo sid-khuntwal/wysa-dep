@@ -28,7 +28,6 @@
 
 .send-btn {
   border: none;
-
   background-color: rgb(78, 252, 194);
   padding: 15px 20px;
   border: none;
@@ -65,7 +64,7 @@
 
 .sent {
   align-self: flex-end;
-  background-color: aquamarine;
+  background-color: rgb(78, 252, 194);
   border-top-right-radius: 0px;
 }
 

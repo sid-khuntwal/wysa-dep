@@ -47,10 +47,13 @@ try {
         socket.emit("message", messages[index]);
 
         if (index === messages.length - 1) {
-          socket.emit("image", process.env.WYSA_IMAGE);
+          setTimeout(() => {
+            socket.emit("image", process.env.WYSA_IMAGE);
+          }, 2000);
         }
         index++;
       } else {
+        clearTimeout();
         clearInterval(interval);
       }
     }, 2000);

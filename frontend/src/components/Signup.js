@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
@@ -8,6 +9,7 @@ const Signup = () => {
   const [password, setpassword] = useState("");
   const [email, setEmail] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const handleusernameChange = (e) => {
     setusername(e.target.value);
@@ -40,7 +42,8 @@ const Signup = () => {
   };
 
   if (isSuccess) {
-    window.location.href = "/";
+    // window.location.href = "/";
+    navigate("/");
   }
 
   return (
