@@ -44,7 +44,6 @@ const Chat = () => {
   return (
     <div className="chat-container">
       <div className="message-box">
-        {/* Display messages */}
         {messages.map((msg, index) => (
           <div
             key={index}
