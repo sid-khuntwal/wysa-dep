@@ -49,14 +49,14 @@ try {
         if (index === messages.length - 1) {
           setTimeout(() => {
             socket.emit("image", process.env.WYSA_IMAGE);
-          }, 2000);
+          }, 1500);
         }
         index++;
       } else {
         clearTimeout();
         clearInterval(interval);
       }
-    }, 2000);
+    }, 1500);
 
     socket.on("sendMessage", (message) => {
       setTimeout(() => {
