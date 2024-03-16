@@ -1,4 +1,4 @@
-.login {
+.container {
     height: 100vh; 
     width: 100%;
     display: flex;
@@ -14,6 +14,7 @@
     width: min(30vw, 100px);
     border-radius: 8px;
     background-color: aquamarine;
+    cursor: pointer;
 }
 
 .input {

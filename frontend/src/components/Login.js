@@ -1,13 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 
 const Login = () => {
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
+
+  useEffect(() => {
+    toast.info(
+      "Use 'root' for username & password if you don't want to signup"
+    );
+  }, []);
+
+  const handleLogin = async () => {
+    if (!username || !password) {
+      toast.error("Please enter username and password");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        toast.error("Invalid username or password");
+        return;
+      }
+
+      toast.success("Login Successfull");
+
+      const data = await response.json();
+      if (data.ok) {
+        window.location.href = "/chat";
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("An error occurred while logging in");
+    }
+  };
+
+  const handleusernameChange = (e) => {
+    setusername(e.target.value);
+  };
+
+  const handlePassChange = (e) => {
+    setpassword(e.target.value);
+  };
+
+  const handleSignUp = () => {
+    window.location.href = "/signup";
+  };
+
   return (
-    <div className="login">
+    <div className="container">
       <h1>Wysa</h1>
-      <input className="input" placeholder="Email" />
-      <input className="input" placeholder="Password" />
-      <button className="btn">Login</button>
+      <input
+        className="input"
+        placeholder="Username (root)"
+        value={username}
+        onChange={(e) => handleusernameChange(e)}
+      />
+      <input
+        className="input"
+        placeholder="Password (root)"
+        value={password}
+        onChange={(e) => handlePassChange(e)}
+      />
+      <button className="btn" onClick={handleLogin}>
+        Login
+      </button>
+
+      <button className="btn" onClick={handleSignUp}>
+        Sign Up
+      </button>
+      <ToastContainer />
     </div>
   );
 };

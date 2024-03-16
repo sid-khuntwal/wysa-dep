@@ -10,26 +10,21 @@ const Chat = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    // Listen for new messages from the server
     socket.on("message", (newMessage) => {
-      // Add the received message to the messages array
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: newMessage, type: "text" },
       ]);
     });
 
-    // Listen for image URL from the server
     socket.on("image", (imageUrl) => {
       setImageUrl(imageUrl);
-      // Add the received image URL to the messages array
       setMessages((prevMessages) => [
         ...prevMessages,
         { type: "image", content: imageUrl },
       ]);
     });
 
-    // Clean up the socket listener when component unmounts
     return () => {
       socket.off("message");
       socket.off("image");
@@ -37,15 +32,12 @@ const Chat = () => {
   }, []);
 
   const handleSend = () => {
-    // Add the sent message to the messages array
-    console.log(newMessage);
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: newMessage, type: "sent" },
     ]);
 
     socket.emit("sendMessage", newMessage);
-    // Clear the input field after sending the message
     setNewMessage("");
   };
 
