@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import "./Chat.css";
 
@@ -8,6 +8,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     socket.on("message", (newMessage) => {
@@ -25,11 +26,17 @@ const Chat = () => {
       ]);
     });
 
+    scrollToBottom();
+
     return () => {
       socket.off("message");
       socket.off("image");
     };
-  }, []);
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleSend = () => {
     setMessages((prevMessages) => [
@@ -60,6 +67,7 @@ const Chat = () => {
             )}
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       <div className="input-box-div">
         <input
