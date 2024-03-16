@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === "production") {
 
 try {
   io.on("connection", (socket) => {
-    console.log("New client connected");
+    console.log("New user connected");
     console.log("User Connected", socket.id);
 
     const messages = [
@@ -45,30 +45,24 @@ try {
     const interval = setInterval(() => {
       if (index < messages.length) {
         socket.emit("message", messages[index]);
-        // Image Emitter
+
         if (index === messages.length - 1) {
-          socket.emit(
-            "image",
-            "https://akm-img-a-in.tosshub.com/businesstoday/images/story/202105/wysa660_210521063642.jpg?size=948:533g"
-          );
+          socket.emit("image", process.env.WYSA_IMAGE);
         }
         index++;
       } else {
         clearInterval(interval);
       }
-    }, 2000); // 2 seconds delay between each message
+    }, 2000);
 
-    //Recieve the messgae from client
     socket.on("sendMessage", (message) => {
-      // Emit the message back to the client
       setTimeout(() => {
         io.emit("message", message);
-      }, 2000); // 2 seconds delay
+      }, 2000);
     });
 
-    // Handle disconnection
     socket.on("disconnect", () => {
-      console.log("Client disconnected");
+      console.log("User disconnected");
       clearInterval(interval);
     });
   });
@@ -76,15 +70,13 @@ try {
   console.log(err);
 }
 
-// parse requests of content-type - application/json
 app.use(express.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "build")));
 app.use(
   cookieSession({
-    name: "kunal-session",
+    name: "sid-session",
     keys: ["COOKIE_SECRET"],
     httpOnly: true,
   })
@@ -93,7 +85,6 @@ app.use(
 const db = require("./app/models");
 const Role = db.role;
 
-// Connecting to Database
 db.mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -108,17 +99,12 @@ db.mongoose
     process.exit();
   });
 
-// simple route
-
-// routes
 require("./app/routes/auth.routes")(app);
-require("./app/routes/user.routes")(app);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-// set port, listen for requests
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
@@ -133,8 +119,6 @@ function initial() {
         if (err) {
           console.log("error", err);
         }
-
-        console.log("added 'user' to roles collection");
       });
 
       new Role({
@@ -143,8 +127,6 @@ function initial() {
         if (err) {
           console.log("error", err);
         }
-
-        console.log("added 'moderator' to roles collection");
       });
 
       new Role({
@@ -153,8 +135,6 @@ function initial() {
         if (err) {
           console.log("error", err);
         }
-
-        console.log("added 'admin' to roles collection");
       });
     }
   });

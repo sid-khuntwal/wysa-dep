@@ -37,7 +37,11 @@ exports.signup = (req, res) => {
               return;
             }
 
-            res.send({ message: "User was registered successfully!" , code: 200, ok : true});
+            res.send({
+              message: "User was registered successfully!",
+              code: 200,
+              ok: true,
+            });
           });
         }
       );
@@ -55,7 +59,11 @@ exports.signup = (req, res) => {
             return;
           }
 
-          res.send({ message: "User was registered successfully!", code: 200, ok : true });
+          res.send({
+            message: "User was registered successfully!",
+            code: 200,
+            ok: true,
+          });
         });
       });
     }
@@ -63,7 +71,6 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-  // console.log(req)
   User.findOne({
     username: req.body.username,
   })
@@ -87,13 +94,11 @@ exports.signin = (req, res) => {
         return res.status(401).send({ message: "Invalid Password!" });
       }
 
-      const token = jwt.sign({ id: user.id },
-                              config.secret,
-                              {
-                                algorithm: 'HS256',
-                                allowInsecureKeySizes: true,
-                                expiresIn: 86400, // 24 hours
-                              });
+      const token = jwt.sign({ id: user.id }, config.secret, {
+        algorithm: "HS256",
+        allowInsecureKeySizes: true,
+        expiresIn: 86400,
+      });
 
       var authorities = [];
 
@@ -108,17 +113,8 @@ exports.signin = (req, res) => {
         username: user.username,
         email: user.email,
         roles: authorities,
-        message:"Signed in",
-        ok:true,
+        message: "Signed in",
+        ok: true,
       });
     });
-};
-
-exports.signout = async (req, res) => {
-  try {
-    req.session = null;
-    return res.status(200).send({ message: "You've been signed out!" });
-  } catch (err) {
-    this.next(err);
-  }
 };
