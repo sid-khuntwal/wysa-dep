@@ -27,7 +27,7 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
+      // console.log(response);
       if (!response.ok) {
         toast.error("Invalid username or password");
         return;
@@ -36,7 +36,9 @@ const Login = () => {
       toast.success("Login Successfull");
 
       const data = await response.json();
-      if (data.ok) {
+      console.log(data);
+
+      if (data.success) {
         window.location.href = "/chat";
       }
     } catch (error) {
