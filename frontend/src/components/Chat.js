@@ -62,7 +62,7 @@ const Chat = () => {
               <img
                 className="image-message"
                 src={msg.content}
-                alt = `${imageUrl}`
+                alt = {imageUrl}
                 
               />
             )}
