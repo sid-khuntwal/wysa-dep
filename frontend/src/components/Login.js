@@ -22,16 +22,13 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch(
-        "https://wysa-dep.vercel.app/api/auth/signin",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-        }
-      );
+      const response = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
       // console.log(response);
       if (!response.ok) {
         toast.error("Invalid username or password");
