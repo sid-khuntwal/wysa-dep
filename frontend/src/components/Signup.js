@@ -21,13 +21,16 @@ const Signup = () => {
 
   const handleSignUp = async () => {
     try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
+      const response = await fetch(
+        "https://wysa-dep.vercel.app/api/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, email, password }),
+        }
+      );
 
       const data = await response.json();
       console.log(data);
