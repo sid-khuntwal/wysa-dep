@@ -9,6 +9,7 @@ const Chat = () => {
   const [newMessage, setNewMessage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const messagesEndRef = useRef(null);
+  console.log(imageUrl);
 
   useEffect(() => {
     socket.on("message", (newMessage) => {
@@ -62,8 +63,7 @@ const Chat = () => {
               <img
                 className="image-message"
                 src={msg.content}
-                alt = {imageUrl}
-                
+                alt="Wysa Image"
               />
             )}
           </div>
